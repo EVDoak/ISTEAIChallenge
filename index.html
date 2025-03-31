@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nigerian Schools Map</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map { height: 500px; width: 100%; }
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h1 { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+    p { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Support Nigerian Schools</h1>
+  <p>Click on the markers to learn how to support schools that lack internet and devices.</p>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const schools = [
+      {
+        id: 1,
+        name: "Community Primary School, Lagos",
+        location: [6.5244, 3.3792],
+        needsInternet: true,
+        needsDevices: true,
+        contact: "donate@lagosschool.org"
+      },
+      {
+        id: 2,
+        name: "Government School, Kano",
+        location: [12.0022, 8.5919],
+        needsInternet: true,
+        needsDevices: false,
+        contact: "support@kanoschool.org"
+      },
+      {
+        id: 3,
+        name: "Unity School, Enugu",
+        location: [6.5246, 7.5181],
+        needsInternet: false,
+        needsDevices: true,
+        contact: "help@enuguschool.org"
+      }
+    ];
+
+    const map = L.map('map').setView([9.082, 8.6753], 6);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    schools.forEach(school => {
+      const marker = L.marker(school.location).addTo(map);
+      marker.bindPopup(`
+        <strong>${school.name}</strong><br>
+        Needs Internet: ${school.needsInternet ? "Yes" : "No"}<br>
+        Needs Devices: ${school.needsDevices ? "Yes" : "No"}<br>
+        Contact: <a href="mailto:${school.contact}">${school.contact}</a>
+      `);
+    });
+  </script>
+</body>
+</html>
